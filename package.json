@@ -3,15 +3,17 @@
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
+    "start": "yarn validateEnv && expo start",
+    "prod:start": "yarn validateEnv && expo start --no-dev --minify",
+    "build": "eas build:configure",
     "simulator": "node ./utils/simulator",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
+    "validateEnv": "ts-to-zod envs/env.ds.ts envs/env.schema.ts && ts-node ./envs/validateEnv.ts",
     "eject": "expo eject"
   },
   "dependencies": {
+    "dotenv": "^16.0.0",
     "expo": "~44.0.0",
+    "expo-constants": "~13.0.1",
     "expo-status-bar": "~1.2.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
@@ -22,6 +24,10 @@
     "@babel/core": "^7.12.9",
     "@types/react": "~17.0.21",
     "@types/react-native": "~0.64.12",
+    "babel-plugin-inline-dotenv": "^1.7.0",
+    "ts-node": "^10.7.0",
+    "zod": "^3.14.4",
+    "ts-to-zod": "^1.10.0",
     "typescript": "~4.3.5"
   },
   "private": true
