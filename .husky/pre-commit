@@ -1,0 +1,13 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+RED='\033[0;31m'
+NC='\033[0m'
+branch="$(git rev-parse --abbrev-ref HEAD)"
+
+
+if [ "$branch" = "main" ]; then
+  echo "❌ ${RED}Forbidden to commit to main branch. Please create branch and work there.${NC}
+               git checkout -b feat/cool-new-feature"
+  exit 1
+fi
