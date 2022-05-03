@@ -1,0 +1,39 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+RED='\033[0;31m'
+NC='\033[0m'
+branch="$(git rev-parse --abbrev-ref HEAD)"
+
+branch_naming_convention="Branch naming convention
+
+               [type*]/[group]-[issue]-[description*]
+
+   - type: task type (feat, fix, or tmp)
+   - group (optional): task group
+   - issue (optional): task ID from tracker
+   - description: short task description
+"
+
+# Enforce branch naming policy
+valid_branch_regex="^(feat|fix|tmp|)\/[a-z0-9-]+$"
+
+if [[ ! $local_branch =~ $valid_branch_regex ]]
+then
+    echo "❌ ${RED}Invalid branch name. Please rename your branch adhearing to the following convention.${NC}
+   $branch_naming_convention
+    Example
+                          git branch -m feat/ui-12-add-dark-mode"
+    exit 1
+fi
+
+# Forbid committing to main
+if [ "$branch" = "main" ]; then
+  echo "❌ ${RED}Forbidden to commit to main branch. Please create branch and work there.${NC}
+  $branch_naming_convention
+   Example            
+                    git checkout -b feat/ui-12-add-dark-mode"
+  exit 1
+fi
+
+exit 0
