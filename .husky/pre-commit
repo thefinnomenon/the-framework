@@ -40,8 +40,4 @@ if [ "$branch" = "main" ]; then
   exit 1
 fi
 
-# Handle Issue ID in commit message
-# TODO: Check if commit message contains Issue ID -> done
-# TODO: Check if branch has Issue ID -> add to commit message
-
 exit 0

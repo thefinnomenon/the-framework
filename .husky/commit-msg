@@ -6,7 +6,6 @@ branch=`git rev-parse --abbrev-ref HEAD`
 
 # Extract issue from branch name (if exists)
 issue=$(echo $branch | sed -nE 's,[a-z0-9/-]+#([0-9])-.+,\1,p')
-echo $issue
 
 # If $issue was found in branch and isn't found in commit message, append to end of commit message
 if [ ! -z $issue ] && ! grep -q $issue $1 
