@@ -4,22 +4,24 @@ RED='\033[0;31m'
 NC='\033[0m'
 branch="$(git rev-parse --abbrev-ref HEAD)"
 
-valid_branch_regex="^(feat|fix|tmp|)\/[a-z0-9-]+$"
+branch_types="feat|fix|tmp"
+min_branch_length=5
 max_branch_length=50
+valid_branch_regex="^($branch_types)\/[a-z0-9-]{$min_branch_length,$max_branch_length}$"
 branch_naming_convention="Branch naming convention
 
                [type*]/[group]-[issue]-[description*]
 
-   - type: task type (feat, fix, or tmp)
+   - type: task type ($branch_types)
    - group (optional): task group
    - issue (optional): task ID from tracker
    - description: short task description
    - only lowercase letters, numbers, and '-'s
-   - max length of $max_branch_length
+   - length between $min_branch_length and $max_branch_length characters
 "
 
 # Enforce branch naming policy
-if [[ ${#branch} -gt $max_branch_length ]] || [[ !$branch =~ $valid_branch_regex ]]
+if [[ ! $branch =~ $valid_branch_regex ]]
 then
     echo "❌ ${RED}Invalid branch name. Please rename your branch adhearing to the following convention.${NC}
    $branch_naming_convention
