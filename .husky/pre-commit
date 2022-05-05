@@ -5,20 +5,22 @@ RED='\033[0;31m'
 NC='\033[0m'
 branch="$(git rev-parse --abbrev-ref HEAD)"
 
-branch_types="feat|fix|tmp"
-min_branch_length=5
-max_branch_length=50
-valid_branch_regex="^($branch_types)\/[a-z0-9#-]{$min_branch_length,$max_branch_length}$"
+# Configure Branch Naming Convention
+BRANCH_TYPES="feat|fix|tmp"
+MIN_BRANCH_LENGTH=5
+MAX_BRANCH_LENGTH=50
+
+valid_branch_regex="^($BRANCH_TYPES)\/[a-z0-9#-]{$MIN_BRANCH_LENGTH,$MAX_BRANCH_LENGTH}$"
 branch_naming_convention="Branch naming convention
 
                [type*]/[group]-#[issue]-[description*]
 
-   - type: task type ($branch_types)
+   - type: task type ($BRANCH_TYPES)
    - group (optional): task group
    - issue (optional): task ID from tracker
    - description: short task description
    - only lowercase letters, numbers, and '-'s
-   - length between $min_branch_length and $max_branch_length characters
+   - length between $MIN_BRANCH_LENGTH and $MAX_BRANCH_LENGTH characters
 "
 
 # Forbid committing to main
