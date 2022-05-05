@@ -11,7 +11,7 @@ max_branch_length=50
 valid_branch_regex="^($branch_types)\/[a-z0-9#-]{$min_branch_length,$max_branch_length}$"
 branch_naming_convention="Branch naming convention
 
-               [type*]/[group]-[issue]-[description*]
+               [type*]/[group]-#[issue]-[description*]
 
    - type: task type ($branch_types)
    - group (optional): task group
@@ -21,23 +21,23 @@ branch_naming_convention="Branch naming convention
    - length between $min_branch_length and $max_branch_length characters
 "
 
+# Forbid committing to main
+if [ "$branch" = "main" ]; then
+  echo "❌ ${RED}Forbidden to commit to main branch. Please create branch and work there.${NC}
+  $branch_naming_convention
+   Example            
+                    git checkout -b feat/ui-#12-add-dark-mode\n"
+  exit 1
+fi
+
 # Enforce branch naming policy
 if [[ ! $branch =~ $valid_branch_regex ]]
 then
     echo "❌ ${RED}Invalid branch name. Please rename your branch adhearing to the following convention.${NC}
    $branch_naming_convention
     Example
-                          git branch -m feat/ui-12-add-dark-mode"
+                          git branch -m feat/ui-#12-add-dark-mode\n"
     exit 1
-fi
-
-# Forbid committing to main
-if [ "$branch" = "main" ]; then
-  echo "❌ ${RED}Forbidden to commit to main branch. Please create branch and work there.${NC}
-  $branch_naming_convention
-   Example            
-                    git checkout -b feat/ui-12-add-dark-mode"
-  exit 1
 fi
 
 exit 0
