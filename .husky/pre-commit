@@ -10,10 +10,10 @@ BRANCH_TYPES="feat|fix|tmp"
 MIN_BRANCH_LENGTH=5
 MAX_BRANCH_LENGTH=50
 
-valid_branch_regex="^($BRANCH_TYPES)\/[a-z0-9#-]{$MIN_BRANCH_LENGTH,$MAX_BRANCH_LENGTH}$"
+valid_branch_regex="^($BRANCH_TYPES)\/[a-z0-9-]{$MIN_BRANCH_LENGTH,$MAX_BRANCH_LENGTH}$"
 branch_naming_convention="Branch naming convention
 
-               [type*]/[group]-#[issue]-[description*]
+               [type*]/[group]-[issue]-[description*]
 
    - type: task type ($BRANCH_TYPES)
    - group (optional): task group
@@ -28,7 +28,7 @@ if [ "$branch" = "main" ]; then
   echo "❌ ${RED}Forbidden to commit to main branch. Please create branch and work there.${NC}
   $branch_naming_convention
    Example            
-                    git checkout -b feat/ui-#12-add-dark-mode\n"
+                    git checkout -b feat/ui-12-add-dark-mode\n"
   exit 1
 fi
 
@@ -38,7 +38,7 @@ then
     echo "❌ ${RED}Invalid branch name. Please rename your branch adhearing to the following convention.${NC}
    $branch_naming_convention
     Example
-                          git branch -m feat/ui-#12-add-dark-mode\n"
+                          git branch -m feat/ui-12-add-dark-mode\n"
     exit 1
 fi
 
