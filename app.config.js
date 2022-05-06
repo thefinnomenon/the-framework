@@ -2,7 +2,7 @@ export default {
   expo: {
     name: "the-framework",
     slug: "the-framework",
-    version: "1.0.0",
+    version: process.env.RELEASE_VERSION || require("./package.json").version,
     orientation: "portrait",
     icon: "./assets/icon.png",
     splash: {
@@ -13,6 +13,7 @@ export default {
     updates: {
       "fallbackToCacheTimeout": 0
     },
+    scheme: "theframework",
     assetBundlePatterns: [
       "**/*"
     ],
