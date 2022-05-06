@@ -1,0 +1,42 @@
+name: EAS Build
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - 'ios/**'
+      - 'android/**'
+      - 'app.json'
+      - 'app.config.js'
+jobs:
+  build:
+    name: Install, lint & test, semantic version, and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+          cache: npm
+      - name: 
+      - name: Setup Expo and EAS
+        uses: expo/expo-github-action@v7
+        with:
+          expo-version: 5.x
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+      - name: Install dependencies
+        run: npm ci
+      - name: Typecheck
+        run: npx --no-install tsc --noEmit
+      # - name: Lint
+      #   run: npm run lint
+      # - name: Test
+      #   run: npm run test -- --coverage
+      - name: Semantic Release
+        run: npm run semantic-release --dry-run
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Build on EAS
+      #   run: eas build --platform all --non-interactive
